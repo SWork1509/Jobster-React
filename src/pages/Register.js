@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Logo, FormRow } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { toast } from 'react-toastify';
-
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser, registerUser } from "../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const INITIAL_STATE = {
   name: "",
@@ -16,9 +16,16 @@ const INITIAL_STATE = {
 const Register = () => {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isLoading, user } = useSelector(store => store.user);
-
   const [values, setValues] = useState(INITIAL_STATE);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
+
 
   const handleChange = (evt) => {
     const name = evt.target.name;
@@ -76,7 +83,8 @@ const Register = () => {
         {/* Submit Button */}
         <button
           className="btn btn-block"
-          type="submit">Submit
+          type="submit"
+          disabled={isLoading}>{isLoading ? 'Loading...' : 'Submit'}
         </button>
 
         {/* Toogle Fields */}

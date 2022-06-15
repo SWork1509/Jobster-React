@@ -24,7 +24,7 @@ const Register = () => {
     if (user) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
 
 
   const handleChange = (evt) => {

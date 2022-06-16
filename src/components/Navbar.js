@@ -31,7 +31,7 @@ const Navbar = () => {
                 <div className="btn-container">
                     <button type="button" className="btn" onClick={() => setShowLogout(!showLogout)}>
                         <FaUserCircle />
-                        {user?.name || "Shubham"}
+                        {user?.name || "Test User"}
                         <FaCaretDown />
                     </button>
 

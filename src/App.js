@@ -1,10 +1,9 @@
-import { Landing, Error, Dashboard, Register, ProtectedRoute } from "./pages";
+import { Landing, Error, Register, ProtectedRoute } from "./pages";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AddJobs, AllJobs, Profile, SharedLayout, Stats } from './pages/dashboard'
 
-// Toast imports
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AddJobs, AllJobs, Profile, SharedLayout, Stats } from './pages/dashboard'
 
 function App() {
   return (

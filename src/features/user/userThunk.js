@@ -22,12 +22,7 @@ export const loginUserThunk = async (url, user, thunkAPI) => {
 
 export const updateUserThunk = async (url, user, thunkAPI) => {
     try {
-        const response = await customFetch.patch('/auth/updateUser', user, {
-            headers: {
-                authorization: `Bearer ${thunkAPI.getState().user.user.token}`
-            }
-        });
-
+        const response = await customFetch.patch('/auth/updateUser', user);
         return response.data;
     } catch (error) {
         // To check if user is on profile page and still receiving 401 #unauthorized while updating user personal data.

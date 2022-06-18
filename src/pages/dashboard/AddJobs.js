@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { toast } from "react-toastify";
 import FormRow from "../../components/FormRow";
 import FormRowSelect from '../../components/FormRowSelect';
-import { handleChange, clearValues, createJob } from "../../features/job/jobSlice";
+import { handleChange, clearValues, createJob, editJob } from "../../features/job/jobSlice";
 
 const AddJobs = () => {
 
@@ -26,7 +26,9 @@ const AddJobs = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(handleChange({ name: "jobLocation", value: user.location }));
+        if (!isEditing) {
+            dispatch(handleChange({ name: "jobLocation", value: user.location }));
+        }
     }, []);
 
     const handleSubmit = (evt) => {
@@ -34,6 +36,20 @@ const AddJobs = () => {
 
         if (!position || !company || !jobLocation) {
             toast.error("Please fill out all fields");
+            return;
+        }
+
+        if (isEditing) {
+            dispatch(editJob({
+                jobId: editJobId,
+                job: {
+                    position,
+                    company,
+                    jobLocation,
+                    jobType,
+                    status
+                }
+            }));
             return;
         }
 

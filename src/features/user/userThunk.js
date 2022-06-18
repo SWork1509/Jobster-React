@@ -1,5 +1,7 @@
-import customFetch from "../../utils/axios";
+import customFetch, { checkForUnauthorizedResponse } from "../../utils/axios";
 import { logoutUser } from "./userSlice";
+import { clearAllJobsState } from "../allJobs/allJobsSlice";
+import { clearValues } from "../job/jobSlice";
 
 
 export const registerUserThunk = async (url, user, thunkAPI) => {
@@ -26,10 +28,20 @@ export const updateUserThunk = async (url, user, thunkAPI) => {
         return response.data;
     } catch (error) {
         // To check if user is on profile page and still receiving 401 #unauthorized while updating user personal data.
-        if (error.response.status === 401) {
-            thunkAPI.dispatch(logoutUser());
-            thunkAPI.rejectWithValue("Unauthorized! Logging out...");
-        }
-        return thunkAPI.rejectWithValue(error.response.data.msg);
+        checkForUnauthorizedResponse(error, thunkAPI);
+    }
+}
+
+export const clearStoreThunk = async (message, thunkAPI) => {
+    try {
+        // Logout User
+        thunkAPI.dispatch(logoutUser(message));
+        // Clear Jobs Values
+        thunkAPI.dispatch(clearAllJobsState());
+        // Clear Job values
+        thunkAPI.dispatch(clearValues());
+        return Promise.resolve();
+    } catch (error) {
+        return Promise.reject();
     }
 }
